@@ -1,0 +1,60 @@
+/* Login & Signup Tab Nav */
+.loginSignupNav {
+    display: flex;
+    overflow: hidden;
+    flex: 1 0 100%;
+    flex-wrap: wrap;
+
+    margin: -20px -30px -21px;
+
+    text-align: center;
+
+    border-top-left-radius: 0.3rem;
+    border-top-right-radius: 0.3rem;
+
+    & li {
+        flex-grow: 1;
+
+        margin: 0;
+
+        & .nav-link {
+            padding: 15px 30px;
+
+            &.active {
+                color: $white;
+                background-color: $primary;
+            }
+        }
+    }
+}
+
+/* Login & Signup With Social */
+.login-reg-social {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+
+    margin: 0 -5px -10px;
+
+    & a {
+        display: inline-block;
+
+        width: 40px;
+        height: 40px;
+        margin: 0 5px 10px;
+
+        text-align: center;
+
+        border-radius: 50%;
+        background-color: #EDEDED;
+
+        & i {
+            line-height: 40px;
+        }
+
+        &:hover {
+            color: $white;
+            background-color: $primary;
+        }
+    }
+}

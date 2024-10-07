@@ -1,0 +1,41 @@
+/*----
+/*  02.6 Button Elements CSS
+/*----------------------------------------*/
+.pagination {
+    margin: 0 0 -10px;
+
+    & .page-item {
+        margin: 0 5px 10px;
+
+        & .page-link {
+            font-size: 14px;
+            line-height: 25px;
+
+            width: 35px;
+            height: 35px;
+            padding: 5px;
+
+            text-align: center;
+
+            color: $body-color;
+            border: none;
+            border-radius: 0;
+
+            &:hover {
+                color: $white;
+                background-color: $primary;
+            }
+        }
+
+        &.active {
+            & .page-link {
+                color: $white;
+                background-color: $primary;
+            }
+        }
+    }
+
+    &.pagination-center {
+        justify-content: center;
+    }
+}

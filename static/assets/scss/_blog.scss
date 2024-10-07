@@ -1,0 +1,250 @@
+/* Blog Wrapper */
+.blog-wrap {
+    margin-bottom: -30px;
+
+    & > [class*="col"] {
+        margin-bottom: 30px;
+    }
+}
+
+/* Blog */
+.blog {
+    & .media {
+        margin-bottom: 25px;
+
+        & a {
+            display: block;
+
+            width: 100%;
+        }
+
+        & img {
+            width: 100%;
+        }
+    }
+
+    & .content {
+        & .title {
+            font-size: 19px;
+
+            margin-bottom: 15px;
+
+            & a {
+            }
+        }
+
+        & .meta {
+            font-size: 13px;
+
+            display: flex;
+            flex-wrap: wrap;
+
+            margin-bottom: 10px;
+            padding: 0;
+
+            list-style: none;
+
+            & li {
+                margin-top: 0;
+                margin-right: 10px;
+
+                &:last-child {
+                    margin-right: 0;
+                }
+
+                &:not(:last-child)::after {
+                    margin-left: 10px;
+
+                    content: "-";
+                }
+
+                & a {
+                }
+            }
+        }
+
+        & .desc {
+            margin-bottom: 20px;
+
+            & p {
+            }
+        }
+
+        & .read-more {
+            font-weight: 600;
+
+            color: $heading-color;
+
+            & i {
+                margin-left: 5px;
+            }
+
+            &:hover {
+                color: $primary;
+            }
+        }
+
+        & .blog-tags {
+            display: flex;
+            flex-wrap: wrap;
+
+            & ul {
+                display: flex;
+                flex-wrap: wrap;
+
+                margin: 0;
+                padding-left: 0;
+
+                list-style: none;
+
+                & li {
+                    margin-top: 0;
+                    margin-right: 5px;
+
+                    &::after {
+                        content: ",";
+                    }
+
+                    &:first-child {
+                        margin-right: 10px;
+
+                        &::after {
+                            display: none;
+                        }
+                    }
+
+                    &:last-child {
+                        margin-right: 0;
+                    }
+
+                    & a {
+                    }
+                }
+            }
+        }
+
+        & .blog-share {
+            display: flex;
+            flex-wrap: wrap;
+
+            & ul {
+                display: flex;
+                align-items: center;
+                flex-wrap: wrap;
+
+                margin: 0;
+                padding-left: 0;
+
+                list-style: none;
+
+                & li {
+                    margin-top: 0;
+                    margin-right: 5px;
+
+                    &:first-child {
+                        margin-right: 10px;
+                    }
+
+                    &:last-child {
+                        margin-right: 0;
+                    }
+
+                    & a {
+                        width: 30px;
+                        height: 30px;
+
+                        text-align: center;
+
+                        border-radius: 50%;
+                        background-color: rgba($black, 0.075);
+
+                        & i {
+                            line-height: 32px;
+                        }
+
+                        &:hover {
+                            color: $white;
+                            background-color: $primary;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // Blog Single
+    &.blog-single {
+        & .content {
+            & .title {
+                font-size: 23px;
+            }
+
+            & .desc {
+                margin-bottom: 30px;
+            }
+        }
+    }
+}
+
+/* Blog Navigation */
+.blog-navigation {
+    padding: 20px 0;
+
+    list-style: none;
+
+    border-top: 1px solid #EDEDED;
+    border-bottom: 1px solid #EDEDED;
+
+    & li {
+        margin: 0;
+
+        & a {
+            position: relative;
+
+            &:hover {
+                color: $primary;
+
+                &::before {
+                    color: $primary;
+                }
+            }
+
+            &::before {
+                font-family: $fontawesome;
+                font-size: 30px;
+                line-height: 24px;
+
+                position: absolute;
+                top: 0;
+
+                color: $body-light;
+            }
+
+            &.prev-blog {
+                margin-left: -15px;
+                padding-left: 30px;
+
+                text-align: left;
+
+                &::before {
+                    left: 0;
+
+                    content: "\f104";
+                }
+            }
+
+            &.next-blog {
+                margin-right: -15px;
+                padding-right: 30px;
+
+                text-align: right;
+
+                &::before {
+                    right: 0;
+
+                    content: "\f105";
+                }
+            }
+        }
+    }
+}

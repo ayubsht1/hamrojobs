@@ -1,0 +1,95 @@
+.job-list-details {
+    & .job-details-head {
+        position: relative;
+        z-index: 1;
+
+        align-items: center;
+
+        margin-bottom: 30px;
+        padding-bottom: 25px;
+
+        border-bottom: 1px solid #EDEDED;
+
+        & .company-logo {
+        }
+
+        & .salary-type {
+            text-align: right;
+
+            & .salary-range {
+                font-weight: 600;
+                line-height: 1;
+
+                display: block;
+
+                margin-bottom: 8px;
+
+                color: lighten($body-color, 15);
+            }
+
+            & .badge {
+                font-size: 13px;
+                font-weight: 400;
+
+                padding: 4px 10px 5px;
+
+                border-radius: 0;
+            }
+        }
+
+        & .content {
+            & .title {
+            }
+
+            & .meta {
+                display: flex;
+                flex-wrap: wrap;
+
+                margin-bottom: 0;
+                padding-left: 0;
+
+                list-style: none;
+
+                color: lighten($body-color, 15);
+
+                & li {
+                    margin-top: 0;
+                    margin-right: 20px;
+
+                    &:last-child {
+                        margin-right: 0;
+                    }
+
+                    & i {
+                        font-size: 16px;
+
+                        margin-right: 3px;
+                    }
+                }
+            }
+        }
+
+        // Responsive
+        @media #{$small-mobile} {
+            & .salary-type {
+                margin-left: auto;
+            }
+
+            & .content {
+                flex: 1 0 100%;
+
+                margin-top: 10px;
+            }
+        }
+
+        @media #{$extra-small-mobile} {
+            padding: 20px 5px;
+        }
+    }
+
+    & .job-details-body {
+        & ul {
+            padding-left: 25px;
+        }
+    }
+}

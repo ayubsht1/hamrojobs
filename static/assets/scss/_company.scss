@@ -1,0 +1,96 @@
+/* Company Slider */
+.company-slider {
+}
+
+/* Feature Company */
+.feature-company {
+    display: block;
+
+    text-align: center;
+
+    & .company-logo {
+        display: inline-block;
+
+        margin-bottom: 10px;
+    }
+
+    & .title {
+        font-size: 19px;
+
+        transition: all 0.3s ease 0s;
+    }
+
+    & .open-job {
+        display: block;
+
+        color: $body-color;
+    }
+
+    &:hover {
+        & .title {
+            color: $primary;
+        }
+    }
+}
+
+/* Company List Wrapper */
+.company-list-wrap {
+    margin-bottom: -30px;
+
+    & > div,
+    & > [class*="col"] {
+        margin-bottom: 30px;
+    }
+}
+
+/* Company List */
+.company-list {
+    display: block;
+
+    padding: 30px;
+
+    text-align: center;
+
+    border: 1px solid #EDEDED;
+
+    & .company-logo {
+        display: inline-block;
+
+        margin-bottom: 10px;
+    }
+
+    & .title {
+        font-size: 19px;
+
+        transition: all 0.3s ease 0s;
+    }
+
+    & .open-job {
+        display: block;
+
+        margin-bottom: 6px;
+
+        color: $body-color;
+    }
+
+    & .location {
+        font-size: 13px;
+
+        color: $body-color;
+
+        & i {
+            margin-right: 10px;
+        }
+    }
+
+    &:hover {
+        z-index: 9;
+
+        border-color: transparent;
+        box-shadow: 0 0 30px rgba($black, 0.15);
+
+        & .title {
+            color: $primary;
+        }
+    }
+}

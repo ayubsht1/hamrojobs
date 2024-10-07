@@ -1,0 +1,40 @@
+/* Job Category Slider */
+.job-category-slider {
+    & .slick-list {
+        padding-top: 15px;
+        padding-bottom: 15px;
+    }
+}
+
+/* Job Category */
+.job-category {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    height: 190px;
+
+    transition: all 0.3s ease 0s;
+    text-align: center;
+
+    & .inner {
+        & i {
+            font-size: 50px;
+            line-height: 1;
+
+            display: block;
+        }
+
+        & .title {
+            font-size: 14px;
+            font-weight: 600;
+
+            margin-top: 20px;
+            margin-bottom: 0;
+
+            text-transform: uppercase;
+
+            color: inherit;
+        }
+    }
+}

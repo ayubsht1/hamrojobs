@@ -1,0 +1,60 @@
+/* Contact Map */
+.contact-map {
+    padding-bottom: 40%;
+
+    @media #{$extra-small-mobile} {
+        padding-bottom: 60%;
+    }
+}
+
+/* Google Map */
+.google-map {
+    background-color: #EDEDED;
+}
+
+/* Contact Information */
+.contact-information {
+    & ul {
+        padding-left: 0;
+
+        list-style: none;
+
+        & li {
+            & + li {
+                margin-bottom: 10px;
+            }
+
+            & i {
+                margin-right: 15px;
+            }
+        }
+    }
+}
+
+/* Contact Social */
+.contact-social {
+    display: flex;
+    flex-wrap: 0;
+
+    margin: -5px;
+
+    & a {
+        width: 36px;
+        height: 36px;
+        margin: 5px;
+
+        text-align: center;
+
+        border-radius: 50%;
+        background-color: rgba($black, 0.075);
+
+        & i {
+            line-height: 36px;
+        }
+
+        &:hover {
+            color: $white;
+            background-color: $primary;
+        }
+    }
+}

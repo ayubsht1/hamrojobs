@@ -1,0 +1,25 @@
+/*----
+/*  02.1 Accordion Elements CSS
+/*----------------------------------------*/
+.accordion {
+    & .card {
+        & .card-header {
+            background-color: transparent;
+
+            & .btn {
+                padding: 0;
+
+                color: $heading-color;
+
+                &:hover {
+                    text-decoration: none;
+
+                    color: $primary;
+                }
+            }
+        }
+
+        & .card-body {
+        }
+    }
+}

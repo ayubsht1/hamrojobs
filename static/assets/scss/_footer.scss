@@ -1,0 +1,155 @@
+/* Footer Top Section */
+.footer-top-section {
+    padding: 80px 0;
+
+    background-color: #333333;
+}
+
+/* Footer Widget Wrapper */
+.footer-widget-wrap {
+    margin-bottom: -30px;
+}
+
+/* Footer Widget */
+.footer-widget {
+    margin-bottom: 30px;
+
+    color: lighten($body-color, 25);
+
+    & .title {
+        font-size: 19px;
+        line-height: 1;
+
+        margin-bottom: 20px;
+
+        color: $white;
+    }
+}
+
+/* Footer About */
+.footer-widget-about {
+    & img {
+        margin-bottom: 20px;
+    }
+
+    & p {
+        max-width: 250px;
+
+        &:not(:last-child) {
+            margin-bottom: 20px;
+        }
+    }
+}
+
+/* Footer Social */
+.footer-socail {
+    display: flex;
+    flex-wrap: wrap;
+
+    margin: 0 -5px -5px;
+    padding-left: 0;
+
+    list-style: none;
+
+    & li {
+        margin: 0 5px 5px;
+
+        & a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            width: 36px;
+            height: 36px;
+
+            color: $white;
+            border-radius: 50%;
+            background-color: rgba($white, 0.1);
+
+            &:hover {
+                background-color: $primary;
+            }
+
+            & i {
+            }
+        }
+    }
+}
+
+
+/* Footer Link */
+.footer-widget-link {
+    & ul {
+        margin: 0;
+        padding-left: 0;
+
+        list-style: none;
+
+        & li {
+            & + li {
+                margin-top: 6px;
+            }
+
+            & a {
+            }
+        }
+    }
+}
+
+/* Footer Newsletter */
+.footer-widget-newsletter {
+    & p {
+        margin-bottom: 20px;
+    }
+
+    & form {
+        position: relative;
+
+        & input {
+            font-size: 13px;
+
+            padding-right: 44px;
+
+            color: $white;
+            border: none;
+            background-color: rgba($white, 0.1);
+        }
+
+        & button {
+            position: absolute;
+            top: 0;
+            right: 0;
+
+            width: 44px;
+            padding: 10px;
+
+            color: $white;
+            border: none;
+
+            &:hover {
+                color: $white;
+                background-color: $primary;
+            }
+        }
+    }
+}
+
+/* Footer Bottom Section */
+.footer-bottom-section {
+    padding: 20px 0;
+
+    background-color: $black;
+}
+
+/* Footer Copyright */
+.footer-copyright {
+    color: lighten($body-color, 25);
+
+    & a {
+        color: $primary;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+}

@@ -1,0 +1,90 @@
+/* Pricing Wrapper */
+.pricing-wrap {
+    margin-bottom: -30px;
+}
+
+/* Pricing */
+.pricing {
+    margin-bottom: 30px;
+
+    & .inner {
+        padding: 40px;
+
+        border: 1px solid #EDEDED;
+        background-color: $white;
+
+        & .head {
+            margin-bottom: 40px;
+
+            & .title {
+                font-weight: 600;
+                line-height: 1;
+
+                display: block;
+
+                margin-bottom: 20px;
+
+                text-transform: uppercase;
+            }
+
+            & .price {
+                font-size: 50px;
+                line-height: 1;
+
+                margin-bottom: 5px;
+
+                & sup {
+                    font-size: 20px;
+
+                    margin-right: 3px;
+
+                    vertical-align: super;
+
+                    &:last-child {
+                        margin-right: 0;
+
+                        vertical-align: sub;
+                    }
+                }
+            }
+
+            & .duration {
+                line-height: 1;
+
+                display: block;
+            }
+        }
+
+        & .body {
+            margin-bottom: 40px;
+
+            & ul {
+                font-size: 16px;
+
+                margin-bottom: 0;
+                padding-left: 0;
+
+                list-style: none;
+
+                & li {
+                    & + li {
+                        margin-top: 5px;
+                    }
+                }
+            }
+        }
+
+        & .foot {
+            & .btn {
+                padding: 10px 30px;
+
+                color: $white;
+                background-color: $dark;
+
+                &:hover {
+                    background-color: $primary;
+                }
+            }
+        }
+    }
+}

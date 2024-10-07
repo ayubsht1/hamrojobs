@@ -1,0 +1,24 @@
+/*----
+/*  02.2 Blockquote Elements CSS
+/*----------------------------------------*/
+.blockquote {
+    margin-top: 20px;
+    padding: 20px 30px;
+
+    border: 1px solid #EDEDED;
+
+    & p {
+        font-family: $special-font;
+        font-style: italic;
+
+        color: $heading-color;
+    }
+}
+
+.blockquote-footer {
+    font-size: 14px;
+
+    margin-top: 5px;
+
+    color: $primary;
+}

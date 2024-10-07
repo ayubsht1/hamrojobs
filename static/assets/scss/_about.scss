@@ -1,0 +1,26 @@
+/* About Content */
+.about-content {
+    & .title {
+        margin-bottom: 20px;
+    }
+
+    & p {
+        margin-bottom: 20px;
+    }
+
+    & ul {
+        padding-left: 15px;
+    }
+}
+
+/* About Image */
+.about-image {
+    height: 100%;
+
+    & img {
+        height: 100%;
+
+        object-fit: cover;
+        object-position: center;
+    }
+}

@@ -1,0 +1,581 @@
+.header {
+    position: absolute;
+    z-index: 99;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    padding: 30px 0;
+
+    transition: all 0.3s ease 0s;
+
+    &.is-sticky {
+        position: fixed;
+
+        padding: 15px 0;
+
+        background-color: $primary;
+        box-shadow: 0 0 30px rgba($black, 0.2);
+    }
+
+    &.menu-open {
+        background-color: $primary;
+        box-shadow: 0 0 30px rgba($black, 0.2);
+    }
+
+    // Responsive
+    @media #{$large-mobile} {
+        padding: 20px 0 !important;
+    }
+}
+
+/* Header Logo */
+.header-logo {
+    & a {
+        display: blocks;
+
+        & img {
+        }
+    }
+
+    // Responsive
+    @media #{$large-mobile} {
+        & a {
+            width: 150px;
+        }
+    }
+
+    @media #{$extra-small-mobile} {
+        & a {
+            width: 130px;
+        }
+    }
+}
+
+/* Offcanvas Toggle */
+.offcanvas-toggle {
+    position: relative;
+
+    width: 30px;
+    height: 20px;
+    padding: 0;
+
+    border: none;
+    background-color: transparent;
+
+    & span {
+        display: block;
+
+        width: 90%;
+        height: 1px;
+
+        transition: all 0.3s ease 0s;
+
+        background-color: $white;
+
+        &::before,
+        &::after {
+            position: absolute;
+            left: 0;
+
+            height: 1px;
+
+            content: "";
+            transition: all 0.3s ease 0s;
+
+            background-color: $white;
+        }
+
+        &::before {
+            top: 0;
+
+            width: 100%;
+        }
+
+        &::after {
+            bottom: 0;
+
+            width: 80%;
+        }
+    }
+
+    &:hover {
+        & span {
+            width: 70%;
+
+            &::before {
+                width: 85%;
+            }
+
+            &::after {
+                width: 100%;
+            }
+        }
+    }
+}
+
+/* Header Links */
+.header-links {
+    display: flex;
+    align-items: center;
+
+    margin-left: 45px;
+
+    color: $white;
+
+    & a {
+        font-weight: 600;
+
+        &:hover {
+            text-decoration: underline;
+
+            color: inherit;
+        }
+    }
+
+    & span {
+        margin: 0 10px;
+    }
+
+    // Responsive
+    @media #{$tablet-device,
+    $large-mobile
+    } {
+        display: none;
+    }
+
+    @media #{$large-mobile} {
+        margin-left: 0;
+    }
+}
+
+/* Main Menu */
+.main-menu {
+    display: flex;
+    align-items: center;
+
+    & > ul {
+        display: flex;
+        flex-wrap: wrap;
+
+        margin: 0;
+        padding: 0;
+
+        list-style: none;
+
+        color: $white;
+
+        & > li {
+            position: relative;
+
+            margin-top: 0;
+            padding: 15px 0;
+
+            & + li {
+                margin-left: 45px;
+            }
+
+            & > a {
+                position: relative;
+
+                display: black;
+
+                padding: 0;
+
+                &::before {
+                    position: absolute;
+                    right: 0;
+                    bottom: 0;
+
+                    width: 0;
+                    height: 1px;
+
+                    content: "";
+                    transition: all 0.3s ease 0s;
+
+                    background-color: $white;
+                }
+            }
+
+            &.active,
+            &:hover {
+                & > a {
+                    color: $white;
+
+                    &::before {
+                        right: auto;
+                        left: 0;
+
+                        width: 100%;
+                    }
+                }
+            }
+
+            &:hover {
+                & > .sub-menu {
+                    visibility: visible;
+
+                    opacity: 1;
+                }
+            }
+        }
+    }
+
+    @media #{$desktop-device} {
+        & > ul {
+            & > li {
+                & + li {
+                    margin-left: 30px;
+                }
+            }
+        }
+    }
+
+    @media #{$tablet-device,
+    $large-mobile
+    } {
+        display: none;
+
+        width: 100%;
+
+        & > ul {
+            flex-direction: column;
+
+            margin-top: 20px;
+
+            & > li {
+                padding: 0;
+
+                & + li {
+                    margin-top: 20px;
+                    margin-left: 0;
+                }
+
+                & > a {
+                    &::before {
+                        display: none;
+                    }
+
+                    &.active {
+                        padding-left: 12px;
+
+                        border-left: 4px solid $white;
+                    }
+                }
+            }
+        }
+    }
+}
+
+/* Sub Menu */
+.sub-menu {
+    font-size: 13px;
+
+    position: absolute;
+    top: 100%;
+    left: -20px;
+
+    visibility: hidden;
+
+    width: 200px;
+    padding: 20px;
+
+    list-style: none;
+
+    transition: all 0.3s ease 0s;
+
+    opacity: 0;
+    color: $body-color;
+    background-color: $white;
+    box-shadow: 0 10px 20px rgba($black, 0.15);
+
+    & li {
+        & + li {
+            margin-top: 5px;
+        }
+
+        & a {
+            display: block;
+        }
+    }
+}
+
+/* Off Canvas CSS */
+body.offcanvas-open {
+    overflow: hidden;
+}
+
+/* Off Canvas Section */
+.offcanvas-section {
+    position: fixed;
+    z-index: 998;
+    top: 0;
+    right: -100%;
+    left: auto;
+
+    visibility: hidden;
+
+    width: 390px;
+    height: 100%;
+    padding-left: 60px;
+
+    transition: all 0.3s ease 0s;
+
+    opacity: 0;
+
+    &.open {
+        right: 0;
+
+        visibility: visible;
+
+        opacity: 1;
+
+        & .offcanvas-close {
+            visibility: visible;
+
+            opacity: 1;
+        }
+    }
+
+    // Responsive
+    @media #{$extra-small-mobile} {
+        width: 100%;
+        padding-left: 50px;
+    }
+}
+
+/* OffCanvas Overlay */
+.offcanvas-overlay {
+    position: fixed;
+    z-index: 996;
+    top: 0;
+    left: 0;
+
+    display: none;
+
+    width: 100%;
+    height: 100%;
+
+    background-color: rgba($black, 0.8);
+}
+
+/* OffCanvas Wraper */
+.offcanvas-wrap {
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    height: 100%;
+
+    background-color: $white;
+    box-shadow: -5px 0 5px 0 rgba($black, 0.1);
+
+    & .inner {
+        display: flex;
+        flex-direction: column;
+
+        min-height: 100%;
+        padding: 40px 30px;
+    }
+}
+
+/* OffCanvas Close */
+.offcanvas-close {
+    font-size: 24px;
+    font-weight: 300;
+    line-height: 1;
+
+    position: absolute;
+    z-index: 997;
+    top: 10px;
+    left: 10px;
+
+    visibility: hidden;
+
+    width: 50px;
+    height: 50px;
+
+    transition: all 0.3s ease 0s;
+
+    opacity: 0;
+    color: $heading-color;
+    border: none;
+    background-color: $white;
+    box-shadow: -5px 0 5px 0 rgba($black, 0.1);
+
+    // Responsive
+    @media #{$extra-small-mobile} {
+        width: 40px;
+        height: 40px;
+    }
+}
+
+/* OffCanvas Menu */
+.offcanvas-menu {
+    & nav {
+        & ul {
+            font-size: 13px;
+
+            position: static;
+            top: 0;
+            left: 0;
+
+            visibility: visible;
+
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            padding: 0;
+
+            list-style: none;
+
+            transition: none;
+
+            opacity: 1;
+            background-color: transparent;
+            box-shadow: none;
+
+            & li {
+                position: relative;
+
+                & a {
+                    font-weight: 500;
+                    line-height: 1;
+
+                    display: block;
+
+                    padding: 15px 0;
+
+                    text-transform: uppercase;
+
+                    border-bottom: 1px solid #EEEEEE;
+                }
+
+                &:last-child {
+                    & > a {
+                        border-bottom: none;
+                    }
+                }
+
+                // Menu Expand Toggle Button For Submenu
+                & .menu-expand {
+                    line-height: 44px;
+
+                    position: absolute;
+                    z-index: 5;
+                    top: 0;
+                    right: 0;
+
+                    width: 30px;
+                    height: 44px;
+
+                    cursor: pointer;
+                    text-align: center;
+
+                    & i {
+                        position: relative;
+
+                        display: block;
+
+                        width: 10px;
+                        margin-top: 22px;
+                        margin-right: auto;
+                        margin-left: auto;
+
+                        transition: all 250ms ease-out;
+
+                        border-bottom: 1px solid;
+
+                        &::before {
+                            position: absolute;
+                            top: 0;
+
+                            display: block;
+
+                            width: 100%;
+
+                            content: "";
+                            transition: all 250ms ease-out;
+                            transform: rotate(90deg);
+
+                            border-bottom: 1px solid;
+                        }
+                    }
+
+                    &:hover {
+                        & i {
+                            border-color: $primary;
+
+                            &::before {
+                                border-color: $primary;
+                            }
+                        }
+                    }
+                }
+
+                &:hover {
+                }
+
+                &.active {
+                    & > .menu-expand {
+                        & i {
+                            &::before {
+                                transform: rotate(0deg);
+                            }
+                        }
+                    }
+
+                    & > .sub-menu {
+                        border-bottom: 1px solid #EEEEEE;
+                    }
+                }
+            }
+        }
+    }
+
+    & .sub-menu {
+        display: none;
+
+        & li {
+            padding: 0 15px;
+
+            & a {
+                font-size: 13px;
+
+                text-transform: inherit;
+            }
+        }
+    }
+}
+
+/* OffCanvas User */
+.offcanvas-user {
+    display: flex;
+    align-items: center;
+
+    margin-bottom: 30px;
+
+    & a {
+        flex-grow: 1;
+
+        padding: 7px 15px;
+
+        text-align: center;
+
+        color: $white;
+        background-color: #6C757D;
+
+        &:hover {
+            border-color: $primary;
+            background-color: $primary;
+        }
+
+        &:focus {
+            color: $white;
+            box-shadow: none;
+        }
+    }
+
+    & span {
+        padding: 10px;
+    }
+}

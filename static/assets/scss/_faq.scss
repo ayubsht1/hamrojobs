@@ -1,0 +1,21 @@
+/* Faq Card */
+.faq-card {
+    margin-bottom: 30px;
+
+    border: none;
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+
+    & .card-header {
+        padding: 0;
+
+        border: none;
+        background-color: transparent;
+    }
+
+    & .card-body {
+        padding: 0 0 0 28px;
+    }
+}

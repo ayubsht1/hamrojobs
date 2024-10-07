@@ -1,0 +1,37 @@
+/* Page Heading Section */
+.page-heading-section {
+    padding: 200px 0 100px;
+
+    @media #{$large-mobile} {
+        padding: 130px 0 50px;
+    }
+}
+
+/* Page Heading Content */
+.page-heading-content {
+    & .title {
+        color: $white;
+    }
+
+    & .breadcrumb {
+        justify-content: center;
+
+        margin: 0;
+        padding: 0;
+
+        color: $white;
+        background-color: transparent;
+
+        & .breadcrumb-item {
+            &::before {
+                color: $white;
+            }
+
+            &.active {
+                text-decoration: underline;
+
+                color: $white;
+            }
+        }
+    }
+}

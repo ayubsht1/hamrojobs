@@ -1,0 +1,23 @@
+/* App Content */
+.app-content {
+    margin-bottom: 30px;
+
+    & .title {
+        margin-bottom: 15px;
+    }
+
+    & .lead {
+        max-width: 490px;
+        margin-bottom: 30px;
+    }
+
+    @media #{$tablet-device} {
+        & .title {
+            font-size: 32px;
+        }
+    }
+}
+
+/* App Image */
+.app-image {
+}

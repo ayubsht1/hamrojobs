@@ -1,0 +1,146 @@
+/* Sidebar Wrapper */
+.sidebar-wrap {
+    margin-bottom: -35px;
+}
+
+/* Sidebar Widget */
+.sidebar-widget {
+    margin-bottom: 35px;
+
+    & > .inner {
+        padding: 25px;
+
+        border: 1px solid #EDEDED;
+
+        & > .title {
+            font-size: 19px;
+            line-height: 1;
+
+            margin-bottom: 20px;
+        }
+    }
+}
+
+/* Sidebar Job Location Map */
+.job-location-map {
+    width: 100%;
+    max-height: 300px;
+    padding-top: 100%;
+}
+
+/* Sidebar Banner */
+.banner {
+    display: block;
+
+    border: 1px solid #EDEDED;
+
+    & img {
+        width: 100%;
+    }
+}
+
+/* Sidebar Company */
+.sidebar-company {
+    display: block;
+
+    & .company-logo {
+        display: inline-block;
+
+        margin-bottom: 10px;
+    }
+
+    & .title {
+        font-size: 19px;
+
+        transition: all 0.3s ease 0s;
+    }
+
+    & ul {
+        margin: 0;
+        padding-left: 0;
+
+        list-style: none;
+
+        & li {
+            & strong {
+                margin-right: 6px;
+
+                color: $heading-color;
+            }
+        }
+    }
+}
+
+/* Sidebar Company Location Map */
+.company-location-map {
+    width: 100%;
+    max-height: 250px;
+    padding-top: 100%;
+}
+
+/* Sidebar List */
+.sidebar-list {
+    margin: 0;
+    padding: 0;
+
+    list-style: none;
+
+    & li {
+        line-height: 1.5;
+
+        & + li {
+            margin-top: 10px;
+        }
+
+        & a {
+            display: inline;
+        }
+    }
+
+    // Sidebar List Comment
+    &.sidebar-list-comment {
+        & li {
+            color: $body-light;
+
+            & + li {
+                margin-top: 15px;
+            }
+
+            & a {
+                color: $heading-color;
+
+                &:hover {
+                    color: $primary;
+                }
+            }
+        }
+    }
+}
+
+/* Sidebar Post */
+.sidebar-post {
+    margin: 0;
+    padding: 0;
+
+    list-style: none;
+
+    & li {
+        line-height: 1.5;
+
+        display: flex;
+        flex-wrap: wrap;
+
+        & + li {
+            margin-top: 15px;
+        }
+
+        & .image {
+            max-width: 70px;
+            margin-right: 15px;
+        }
+
+        & .title {
+            max-width: calc(100% - 85px);
+        }
+    }
+}

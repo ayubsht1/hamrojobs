@@ -1,0 +1,50 @@
+/* Job Search Section */
+.job-search-section {
+    position: relative;
+    z-index: 90;
+}
+
+/* Job Search Wrapper */
+.job-search-wrap {
+    position: relative;
+
+    margin-top: -83px;
+    padding: 60px;
+
+    background-color: $white;
+    box-shadow: 0 0 30px rgba($black, 0.15);
+
+    // Responsive
+    @media #{$extra-small-mobile} {
+        padding: 30px;
+    }
+}
+
+
+/* Job Search Form */
+.job-search-form {
+    & .btn {
+        display: block;
+
+        width: 100%;
+    }
+}
+
+/* Job Search Form 2 */
+.job-search-form-2 {
+    & input[type="text"] {
+        padding: 15px 20px;
+    }
+
+    & select {
+        padding: 15px;
+        padding-right: 40px;
+    }
+
+    & .btn {
+        display: block;
+
+        width: 100%;
+        padding: 15px 20px;
+    }
+}

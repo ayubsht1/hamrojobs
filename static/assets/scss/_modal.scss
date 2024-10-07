@@ -1,0 +1,47 @@
+/*----
+/*  02.5 Button Elements CSS
+/*----------------------------------------*/
+.modal {
+}
+
+.modal-dialog {
+}
+
+.modal-content {
+}
+
+.modal-header {
+    position: relative;
+
+    padding: 20px 30px;
+
+    border-color: #EDEDED;
+
+    & .close {
+        font-weight: 300;
+
+        position: absolute;
+        top: -20px;
+        right: -20px;
+
+        width: 40px;
+        height: 40px;
+        margin: 0;
+        padding: 0 0 3px;
+
+        opacity: 1;
+        border-radius: 50%;
+        background-color: $white;
+        box-shadow: 0 0 30px rgba($black, 0.15);
+
+        &:hover {
+            opacity: 1 !important;
+            color: $white;
+            background-color: $primary;
+        }
+    }
+}
+
+.modal-body {
+    padding: 30px;
+}

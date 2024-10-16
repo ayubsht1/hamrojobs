@@ -1,337 +1,239 @@
-(function ($) {
-    "use strict";
-
-    /*--
-        Commons Variables
-    -----------------------------------*/
-    var $window = $(window),
-        $body = $('body'),
-        $mainWrapper = $('.main-wrapper'),
-        $headerHeight = $('.header').outerHeight();
-
-    /*--
-        Custom script to call Background
-        Image form html data attribute
-    -----------------------------------*/
-    $('[data-bg-image]').each(function () {
-        var $this = $(this),
-            $image = $this.data('bg-image');
-        $this.css('background-image', 'url(' + $image + ')');
-
+(function ($)
+  { "use strict"
+  
+/* 1. Proloder */
+    $(window).on('load', function () {
+      $('#preloader-active').delay(450).fadeOut('slow');
+      $('body').delay(450).css({
+        'overflow': 'visible'
+      });
     });
 
-    /*--
-        Parallax
-    -----------------------------------*/
-    $('.bg-parallax').each(function () {
-        $(this).parallax("50%", 0.5);
-    })
 
-    /*--
-        Header Sticky
-    -----------------------------------*/
-    $window.on('scroll', function () {
-        if ($window.scrollTop() > 350) {
-            $('.header').addClass('is-sticky');
-        } else {
-            $('.header').removeClass('is-sticky');
-        }
-    });
+/* 2. slick Nav */
+// mobile_menu
+    var menu = $('ul#navigation');
+    if(menu.length){
+      menu.slicknav({
+        prependTo: ".mobile_menu",
+        closedSymbol: '+',
+        openedSymbol:'-'
+      });
+    };
 
-    /*--
-		Mobile OffCanvas Open & Close
-    -----------------------------------*/
-    function mobileOffCanvasToggle() {
-        var $offCanvas = $('#offcanvas'),
-            $offCanvasOverlay = $('.offcanvas-overlay');
-        $('.offcanvas-toggle').on('click', function () {
-            $offCanvas.addClass('open');
-            $offCanvasOverlay.fadeIn();
-            $body.addClass('offcanvas-open');
-        });
-        $('.offcanvas-close, .offcanvas-overlay').on('click', function () {
-            $offCanvas.removeClass('open');
-            $offCanvasOverlay.fadeOut();
-            $body.removeClass('offcanvas-open');
-        });
-    }
-    mobileOffCanvasToggle();
 
-    /*--
-        Off Canvas Menu
-    -----------------------------------*/
-    function mobileOffCanvasMenu() {
-        var $offCanvasNav = $('.offcanvas-menu'),
-            $offCanvasNavSubMenu = $offCanvasNav.find('.sub-menu');
-
-        /*Add Toggle Button With Off Canvas Sub Menu*/
-        $offCanvasNavSubMenu.parent().prepend('<span class="menu-expand"><i></i></span>');
-
-        /*Category Sub Menu Toggle*/
-        $offCanvasNav.on('click', 'li a, li .menu-expand', function (e) {
-            var $this = $(this);
-            if ($this.siblings('.sub-menu').length && ($this.attr('href') === '#' || $this.hasClass('menu-expand'))) {
-                e.preventDefault();
-                if ($this.siblings('ul:visible').length) {
-                    $this.parent('li').removeClass('active');
-                    $this.siblings('ul').slideUp();
-                    $this.parent('li').find('li').removeClass('active');
-                    $this.parent('li').find('ul:visible').slideUp();
-                } else {
-                    $this.parent('li').addClass('active');
-                    $this.closest('li').siblings('li').removeClass('active').find('li').removeClass('active');
-                    $this.closest('li').siblings('li').find('ul:visible').slideUp();
-                    $this.siblings('ul').slideDown();
-                }
-            }
-        });
-    }
-    mobileOffCanvasMenu();
-
-    /*--
-        Login & Register Modal
-    -----------------------------------*/
-    $('#loginSignupModal').on('show.bs.modal', function (event) {
-        var $button = $(event.relatedTarget),
-            $target = $button.data('target-sub'),
-            $modal = $(this);
-        $modal.find('.nav-link').removeClass('active');
-        $modal.find('.nav-link[href="' + $target + '"]').addClass('active');
-        $modal.find('.tab-pane').removeClass('active show');
-        $modal.find('.tab-pane' + $target).addClass('active show');
-    })
-
-    /*--
-        Slick Slider Activation
-    -----------------------------------*/
-
-    // Company Slider
-    $('.company-slider').slick({
-        slidesToShow: 6,
-        slidesToScroll: 1,
-        arrows: true,
-        autoplay: true,
-        prevArrow: '<button class="slick-prev"><i class="fa fa-angle-left"></i></button>',
-        nextArrow: '<button class="slick-next"><i class="fa fa-angle-right"></i></button>',
+/* 3. MainSlider-1 */
+    function mainSlider() {
+      var BasicSlider = $('.slider-active');
+      BasicSlider.on('init', function (e, slick) {
+        var $firstAnimatingElements = $('.single-slider:first-child').find('[data-animation]');
+        doAnimations($firstAnimatingElements);
+      });
+      BasicSlider.on('beforeChange', function (e, slick, currentSlide, nextSlide) {
+        var $animatingElements = $('.single-slider[data-slick-index="' + nextSlide + '"]').find('[data-animation]');
+        doAnimations($animatingElements);
+      });
+      BasicSlider.slick({
+        autoplay: false,
+        autoplaySpeed: 10000,
+        dots: false,
+        fade: true,
+        arrows: false,
+        prevArrow: '<button type="button" class="slick-prev"><i class="ti-shift-left"></i></button>',
+        nextArrow: '<button type="button" class="slick-next"><i class="ti-shift-right"></i></button>',
         responsive: [{
-            breakpoint: 1200,
+            breakpoint: 1024,
             settings: {
-                slidesToShow: 5
+              slidesToShow: 1,
+              slidesToScroll: 1,
+              infinite: true,
             }
-        }, {
-            breakpoint: 992,
+          },
+          {
+            breakpoint: 991,
             settings: {
-                slidesToShow: 4
+              slidesToShow: 1,
+              slidesToScroll: 1,
+              arrows: false
             }
-        }, {
+          },
+          {
             breakpoint: 767,
             settings: {
-                slidesToShow: 3,
-                arrows: false
+              slidesToShow: 1,
+              slidesToScroll: 1,
+              arrows: false
             }
-        }, {
-            breakpoint: 480,
-            settings: {
-                slidesToShow: 2,
-                arrows: false
-            }
-        }]
-    });
+          }
+        ]
+      });
 
-    // Job Category Slider
-    $('.job-category-slider').slick({
-        slidesToShow: 5,
-        slidesToScroll: 1,
-        arrows: true,
-        autoplay: true,
-        prevArrow: '<button class="slick-prev"><i class="fa fa-angle-left"></i></button>',
-        nextArrow: '<button class="slick-next"><i class="fa fa-angle-right"></i></button>',
-        responsive: [{
-            breakpoint: 1200,
-            settings: {
-                slidesToShow: 4
-            }
-        }, {
-            breakpoint: 992,
-            settings: {
-                slidesToShow: 3
-            }
-        }, {
-            breakpoint: 767,
-            settings: {
-                slidesToShow: 2,
-                arrows: false
-            }
-        }, {
-            breakpoint: 480,
-            settings: {
-                slidesToShow: 1
-            }
-        }]
-    });
+      function doAnimations(elements) {
+        var animationEndEvents = 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend';
+        elements.each(function () {
+          var $this = $(this);
+          var $animationDelay = $this.data('delay');
+          var $animationType = 'animated ' + $this.data('animation');
+          $this.css({
+            'animation-delay': $animationDelay,
+            '-webkit-animation-delay': $animationDelay
+          });
+          $this.addClass($animationType).one(animationEndEvents, function () {
+            $this.removeClass($animationType);
+          });
+        });
+      }
+    }
+    mainSlider();
 
-    // Testimonial Slider
-    $('.testimonial-slider').slick({
+
+
+/* 4. Testimonial Active*/
+    var testimonial = $('.h1-testimonial-active');
+    if(testimonial.length){
+    testimonial.slick({
+        dots: true,
+        infinite: true,
+        speed: 500,
+        autoplay:true,
+        arrows: false,
+        prevArrow: '<button type="button" class="slick-prev"><i class="ti-angle-left"></i></button>',
+        nextArrow: '<button type="button" class="slick-next"><i class="ti-angle-right"></i></button>',
         slidesToShow: 1,
         slidesToScroll: 1,
-        arrows: true,
-        autoplay: true,
-        prevArrow: '<button class="slick-prev"><i class="fa fa-angle-left"></i></button>',
-        nextArrow: '<button class="slick-next"><i class="fa fa-angle-right"></i></button>',
-        responsive: [{
-            breakpoint: 767,
+        responsive: [
+          {
+            breakpoint: 1024,
             settings: {
-                slidesToShow: 1,
-                arrows: false
+              slidesToShow: 1,
+              slidesToScroll: 1,
+              infinite: true,
+              arrow:false
             }
-        }]
-    });
-
-    // Blog Slider
-    $('.blog-slider').slick({
-        slidesToShow: 3,
-        slidesToScroll: 1,
-        arrows: false,
-        autoplay: true,
-        prevArrow: '<button class="slick-prev"><i class="fa fa-angle-left"></i></button>',
-        nextArrow: '<button class="slick-next"><i class="fa fa-angle-right"></i></button>',
-        responsive: [{
-            breakpoint: 992,
+          },
+          {
+            breakpoint: 600,
             settings: {
-                slidesToShow: 2
+              slidesToShow: 1,
+              slidesToScroll: 1,
+              arrows:false
             }
-        }, {
-            breakpoint: 767,
+          },
+          {
+            breakpoint: 480,
             settings: {
-                slidesToShow: 2,
-                arrows: false
+              slidesToShow: 1,
+              slidesToScroll: 1,
+              arrows:false,
             }
-        }, {
-            breakpoint: 767,
-            settings: {
-                slidesToShow: 2,
-                arrows: false
-            }
-        }, {
-            breakpoint: 575,
-            settings: {
-                slidesToShow: 1
-            }
-        }]
-    });
-
-    /*--
-        Counter Up
-    -----------------------------------*/
-    $('.counter').counterUp({
-        time: 3000
-    });
-
-    /*--
-        Salary Range (Ion Range Slider)
-    -----------------------------------*/
-    $("#salary-range").ionRangeSlider({
-        type: "double",
-        min: 3000,
-        max: 25000,
-        step: 500,
-        from: 7000,
-        to: 15000,
-        grid: false,
-    });
-
-    /*--
-        MailChimp
-    -----------------------------------*/
-    $('#mc-form').ajaxChimp({
-        language: 'en',
-        callback: mailChimpResponse,
-        // ADD YOUR MAILCHIMP URL BELOW HERE!
-        url: 'http://devitems.us11.list-manage.com/subscribe/post?u=6bbb9b6f5827bd842d9640c82&amp;id=05d85f18ef'
-
-    });
-
-    function mailChimpResponse(resp) {
-        if (resp.result === 'success') {
-            $('.mailchimp-success').html('' + resp.msg).fadeIn(900);
-            $('.mailchimp-error').fadeOut(400);
-        } else if (resp.result === 'error') {
-            $('.mailchimp-error').html('' + resp.msg).fadeIn(900);
-        }
+          }
+        ]
+      });
     }
 
-    /*--
-        Scroll Up
-    -----------------------------------*/
-    $.scrollUp({
-        scrollText: '<i class="fa fa-long-arrow-up"></i>',
-    });
+/* 5. Gallery Active */
+    var client_list = $('.completed-active');
+    if(client_list.length){
+      client_list.owlCarousel({
+        slidesToShow: 2,
+        slidesToScroll: 1,
+        loop: true,
+        autoplay:true,
+        speed: 3000,
+        smartSpeed:2000,
+        nav: false,
+        dots: false,
+        margin: 15,
 
-    /*--
-        Google Map
-    -----------------------------------*/
-    $('.google-map').each(function () {
-        if ($(this).length) {
-            var $this = $(this),
-                $id = $this.attr('id'),
-                $zoom = $this.data('zoom') ? $this.data('zoom') : 12,
-                $lat = $this.data('lat') ? $this.data('lat') : 21.0277214,
-                $long = $this.data('long') ? $this.data('long') : 105.8342015;
-
-            function initialize() {
-                var mapOptions = {
-                    zoom: $zoom,
-                    scrollwheel: false,
-                    center: new google.maps.LatLng($lat, $long),
-                };
-                var map = new google.maps.Map(document.getElementById($id), mapOptions);
-                var marker = new google.maps.Marker({
-                    position: map.getCenter(),
-                    map: map
-                    //animation: google.maps.Animation.BOUNCE
-                });
-            }
-            google.maps.event.addDomListener(window, 'load', initialize);
+        autoplayHoverPause: true,
+        responsive : {
+          0 : {
+            items: 1
+          },
+          768 : {
+            items: 2
+          },
+          992 : {
+            items: 2
+          },
+          1200:{
+            items: 3
+          }
         }
+      });
+    }
+
+
+/* 6. Nice Selectorp  */
+  var nice_Select = $('select');
+    if(nice_Select.length){
+      nice_Select.niceSelect();
+    }
+
+/* 7.  Custom Sticky Menu  */
+    $(window).on('scroll', function () {
+      var scroll = $(window).scrollTop();
+      if (scroll < 245) {
+        $(".header-sticky").removeClass("sticky-bar");
+      } else {
+        $(".header-sticky").addClass("sticky-bar");
+      }
     });
 
-    /*--
-        Ajax Contact Form
-    -----------------------------------*/
-    $(function () {
-        // Get the form.
-        var form = $('#contact-form');
-        // Get the messages div.
-        var formMessages = $('.form-messege');
-        // Set up an event listener for the contact form.
-        $(form).submit(function (e) {
-            // Stop the browser from submitting the form.
-            e.preventDefault();
-            // Serialize the form data.
-            var formData = $(form).serialize();
-            // Submit the form using AJAX.
-            $.ajax({
-                    type: 'POST',
-                    url: $(form).attr('action'),
-                    data: formData
-                })
-                .done(function (response) {
-                    // Make sure that the formMessages div has the 'success' class.
-                    formMessages.removeClass('error text-danger').addClass('success text-success mt-3').text(response);
-                    // Clear the form.
-                    form.find('input:not([type="submit"]), textarea').val('');
-                })
-                .fail(function (data) {
-                    // Make sure that the formMessages div has the 'error' class.
-                    formMessages.removeClass('success text-success').addClass('error text-danger mt-3');
-                    // Set the message text.
-                    if (data.responseText !== '') {
-                        formMessages.text(data.responseText);
-                    } else {
-                        formMessages.text('Oops! An error occured and your message could not be sent.');
-                    }
-                });
-        });
+    $(window).on('scroll', function () {
+      var scroll = $(window).scrollTop();
+      if (scroll < 245) {
+          $(".header-sticky").removeClass("sticky");
+      } else {
+          $(".header-sticky").addClass("sticky");
+      }
     });
+
+
+
+/* 8. sildeBar scroll */
+    $.scrollUp({
+      scrollName: 'scrollUp', // Element ID
+      topDistance: '300', // Distance from top before showing element (px)
+      topSpeed: 300, // Speed back to top (ms)
+      animation: 'fade', // Fade, slide, none
+      animationInSpeed: 200, // Animation in speed (ms)
+      animationOutSpeed: 200, // Animation out speed (ms)
+      scrollText: '<i class="ti-arrow-up"></i>', // Text for element
+      activeOverlay: false, // Set CSS color to display scrollUp active point, e.g '#00FFFF'
+    });
+
+
+/* 9. data-background */
+    $("[data-background]").each(function () {
+      $(this).css("background-image", "url(" + $(this).attr("data-background") + ")")
+      });
+
+
+/* 10. WOW active */
+    new WOW().init();
+
+/* 11. Datepicker */
+    
+// 11. ---- Mailchimp js --------//  
+    function mailChimp() {
+      $('#mc_embed_signup').find('form').ajaxChimp();
+    }
+    mailChimp();
+
+
+// 12 Pop Up Img
+    var popUp = $('.single_gallery_part, .img-pop-up');
+      if(popUp.length){
+        popUp.magnificPopup({
+          type: 'image',
+          gallery:{
+            enabled:true
+          }
+        });
+      }
+
+
+
 
 })(jQuery);

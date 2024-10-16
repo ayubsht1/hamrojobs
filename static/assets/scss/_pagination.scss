@@ -1,41 +1,46 @@
-/*----
-/*  02.6 Button Elements CSS
-/*----------------------------------------*/
-.pagination {
-    margin: 0 0 -10px;
 
-    & .page-item {
-        margin: 0 5px 10px;
-
-        & .page-link {
-            font-size: 14px;
-            line-height: 25px;
-
-            width: 35px;
-            height: 35px;
-            padding: 5px;
-
-            text-align: center;
-
-            color: $body-color;
-            border: none;
-            border-radius: 0;
-
-            &:hover {
-                color: $white;
-                background-color: $primary;
-            }
-        }
-
-        &.active {
-            & .page-link {
-                color: $white;
-                background-color: $primary;
-            }
-        }
+// Pagination Area
+.pagination-area{
+    @media #{$lg}{
+        padding-bottom: 50px;
     }
-
-    &.pagination-center {
-        justify-content: center;
+    @media #{$md}{
+        padding-bottom: 50px;
+    }
+    @media #{$sm}{
+        padding-bottom: 50px;
+    }
+    @media #{$xs}{
+        padding-bottom: 50px;
+    }
+    .page-item {
+        margin: 0;
+    }
+    .page-item:first-child {margin: 0;}
+    .page-link {
+        border:0;
+        font-size: 15px;
+        text-align: center;
+        background: none;
+        box-shadow: none;
+        outline: 0;
+        color:#777777;
+        padding: 11px 12px;
+        background: #fff;
+        margin: 0 3px;
+        border-radius: 5px;
+        border: 1px solid #f0f0f0;
+    }
+    .page-link:hover {
+        color:$theme-color;
+    }
+    .page-item.active .page-link {
+        z-index: 1;
+        border: 0;
+        position: relative;
+        box-shadow: none;
+        outline: 0;
+        background:#242b5e;
+        color:#fff;
     }
 }

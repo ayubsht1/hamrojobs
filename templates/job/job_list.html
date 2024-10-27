@@ -218,7 +218,7 @@
                                         <h4>{{ job.title }}</h4>
                                     </a>
                                     <ul>
-                                        <li>{{ job.category }}</li>
+                                        <li>{{ job.category|truncatechars:12 }}</li>
                                         <li><i class="fas fa-map-marker-alt"></i>{{ job.location }}</li>
                                         <li>{{ job.salary }}</li>
                                     </ul>

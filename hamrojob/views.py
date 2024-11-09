@@ -1,4 +1,5 @@
 from typing import Any
+from django.db.models.query import QuerySet
 from django.shortcuts import render
 from django.views.generic import (
     TemplateView, ListView, DetailView
@@ -37,6 +38,14 @@ class JobView(ListView):
         # Let ListView handle the pagination
         context = super().get_context_data(**kwargs)
         return context
+    
+class CategoryView(ListView):
+    model = JobCategory
+    template_name = 'job/job_list_left.html'
+    context_object_name = "categories"
+
+    def get_queryset(self):
+        return JobCategory.objects.all()
 
 class JobDetailView(TemplateView):
     template_name = 'job/job_detail.html'

@@ -1,0 +1,37 @@
+{% extends "users/base.html" %}
+{% load widget_tweaks %}
+
+{% block content %}
+<div class="text-center">
+    <h4 class="mb-4">Signup as Applicant</h4>  
+</div>
+<form class="login-form" method="POST">
+    {% csrf_token %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group position-relative">
+                <label>Your Email <span class="text-danger">*</span></label>
+                {% render_field form.email class="form-control" placeholder="Email" name="email" %}
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="form-group position-relative">
+                <label>Password <span class="text-danger">*</span></label>
+                {% render_field form.password1 class="form-control" placeholder="Password" name="email" %}
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="form-group position-relative">
+                <label>Confirm Password <span class="text-danger">*</span></label>
+                {% render_field form.password2 class="form-control" placeholder="Confirm Password" name="email" %}
+            </div>
+        </div>
+        <div class="col-md-12">
+            <button class="btn btn-primary w-100">Register</button>
+        </div>
+        <div class="mx-auto">
+            <p class="mb-0 mt-3"><small class="text-dark mr-2">Already have an account ?</small> <a href="{% url 'login' %}" class="text-dark font-weight-bold">Sign in</a></p>
+        </div>
+    </div>
+</form>
+{% endblock content %}

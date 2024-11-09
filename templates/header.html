@@ -18,7 +18,7 @@
                             <div class="main-menu">
                                 <nav class="d-none d-lg-block">
                                     <ul id="navigation">
-                                        <li><a href="/">Home</a></li>
+                                        <li><a href="{% url 'home'%}">Home</a></li>
                                         <li><a href="{% url 'job-list' %}">Find a Jobs </a></li>
                                         <li><a href="{% url 'about' %}">About</a></li>
                                         <li><a href="#">Page</a>
@@ -35,8 +35,12 @@
                             </div>          
                             <!-- Header-btn -->
                             <div class="header-btn d-none f-right d-lg-block">
-                                <a href="#" class="btn head-btn1" data-toggle="modal" data-target="#registerModal">Register</a>
-                                <a href="#" class="btn head-btn2" data-toggle="modal" data-target="#loginModal">Login</a>
+                                {% if user.is_authenticated %}
+                                <a href="{% url 'logout' %}" class="genric-btn danger" >Logout</a>
+                                {% else %}
+                                <a href="{% url 'register-applicant' %}" class="btn head-btn1" >Register</a>
+                                <a href="{% url 'login' %}" class="btn head-btn2" >Login</a>
+                                {% endif %}
                             </div>
                         </div>
                     </div>

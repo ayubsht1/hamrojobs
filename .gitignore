@@ -60,5 +60,4 @@ Thumbs.db
 node_modules/
 
 # Static and media files
-staticfiles/
 media/

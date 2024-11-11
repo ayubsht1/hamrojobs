@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load humanize %}
 {% block content %}
  <!-- Hero Area Start-->
  <div class="slider-area ">
@@ -51,10 +52,10 @@
                         <div class="single-job-items mb-30">
                             <div class="job-items">
                                 <div class="company-img">
-                                    <a href="#"><img src="{% static 'assets/img/icon/job-list1.png' %}" alt=""></a>
+                                    <a href="{% url 'job-detail' job.pk %}"><img src="{% if job.company.logo %} {{  job.company.logo.url  }} {% endif %}" alt="{{ job.company.name|truncatechars:5 }}"></a>
                                 </div>
                                 <div class="job-tittle job-tittle2">
-                                    <a href="#">
+                                    <a href="{% url 'job-detail' job.pk %}">
                                         <h4>{{ job.title }}</h4>
                                     </a>
                                     <ul>
@@ -65,8 +66,8 @@
                                 </div>
                             </div>
                             <div class="items-link items-link2 f-right">
-                                <a href="{% url 'job-detail' %}">{{ job.job_type }}</a>
-                                <span>{{ job.posted_at }}</span>
+                                <a href="{% url 'job-detail' job.pk %}">{{ job.job_type }}</a>
+                                <span>{{ job.posted_at|naturaltime }}</span>
                             </div>
                         </div>
                         {% endfor %}

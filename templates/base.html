@@ -39,6 +39,16 @@
     </div> -->
 
     {% include "header.html" %}
+    {% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-danger alert-dismissible fade show {{ message.tags|default:'alert-info' }}" role="alert">
+            <strong>{{ message }}</strong>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    {% endfor %}
+{% endif %}
     {% block content %}
     {% endblock content %}
     {% include "footer.html" %}

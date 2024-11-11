@@ -6,7 +6,7 @@
         <div class="row">
             <div class="col-lg-8 col-md-8">
                 <h3 class="mb-30">Create A Company</h3>
-                <form method="POST">
+                <form method="POST" enctype="multipart/form-data">
                     {% csrf_token %}
                     <div class="mt-10">
                         {% render_field form.name class="single-input" placeholder="Company Name"%}
@@ -19,6 +19,9 @@
                     </div>
                     <div class="mt-10">
                         {% render_field form.province class="single-input" placeholder="Province"%}
+                    </div>
+                    <div class="mt-10">
+                        {% render_field form.logo class="single-input" placeholder="logo"%}
                     </div>
                     <br>
                     <button type="submit" class="genric-btn primary-border">Submit</button>

@@ -1,4 +1,5 @@
 {% load static %}
+{% load humanize %}
         <!-- Featured_job_start -->
         <section class="featured-job-area feature-padding">
             <div class="container">
@@ -18,10 +19,10 @@
                         <div class="single-job-items mb-30">
                             <div class="job-items">
                                 <div class="company-img">
-                                    <a href="job_details.html"><img src="{% static 'assets/img/icon/job-list1.png' %}" alt=""></a>
+                                    <a href="{% url 'job-detail' job.pk %}"><img src="{% if job.company.logo %} {{  job.company.logo.url  }} {% endif %}" alt="{{ job.company.name|truncatechars:5 }}"></a>
                                 </div>
                                 <div class="job-tittle">
-                                    <a href="job_details.html"><h4>{{ job.title }}</h4></a>
+                                    <a href="{% url 'job-detail' job.pk %}"><h4>{{ job.title }}</h4></a>
                                     <ul>
                                         <li>{{ job.category }}</li>
                                         <li><i class="fas fa-map-marker-alt"></i>{{ job.location }}</li>
@@ -30,8 +31,8 @@
                                 </div>
                             </div>
                             <div class="items-link f-right">
-                                <a href="{% url 'job-detail' %}">{{ job.job_type }}</a>
-                                <span>{{ job.posted_at }}</span>
+                                <a href="{% url 'job-detail' job.pk %}">{{ job.job_type }}</a>
+                                <span>{{ job.posted_at|naturaltime }}</span>
                             </div>
                         </div>
                         {% endfor %}

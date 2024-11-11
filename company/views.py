@@ -9,22 +9,30 @@ from users.models import User
 def update_company(request):
     if request.user.is_recruiter:
         company = Company.objects.get(user=request.user)
+        
         if request.method == 'POST':
-            form = UpdateCompanyForm(request.POST, instance=company)
+            # Pass both request.POST and request.FILES to handle file uploads
+            form = UpdateCompanyForm(request.POST, request.FILES, instance=company)
+            
             if form.is_valid():
                 var = form.save(commit=False)
+                # Save the company info (including the logo if uploaded)
+                var.save()
+                
+                # Update the user’s has_company field if necessary
                 user = User.objects.get(id=request.user.id)
                 user.has_company = True
-                var.save()
                 user.save()
-                messages.info(request, 'your company info has been updated')
+                
+                messages.info(request, 'Your company info has been updated successfully.')
                 return redirect('dashboard')
             else:
-                messages.warning(request, 'something went wrong')
+                messages.warning(request, 'Something went wrong. Please check the form.')
         else:
             form = UpdateCompanyForm(instance=company)
-            context = {'form':form}
-            return render(request, 'company/update_company.html', context)
+        
+        context = {'form': form}
+        return render(request, 'company/update_company.html', context)
     else:
         messages.warning(request, 'Permission denied')
         return redirect('dashboard')

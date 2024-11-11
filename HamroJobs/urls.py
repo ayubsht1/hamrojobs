@@ -23,7 +23,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include("users.urls")),
     path("", include("hamrojob.urls")),
+    path("company/", include("company.urls")),
     path("dashboard/",include("dashboard.urls")),
+    path('resume/',include("resume.urls")),
 ]
 
 if settings.DEBUG:

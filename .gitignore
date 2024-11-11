@@ -1,1 +1,64 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Django-related
+*.log
+*.pot
+*.pyc
+*.pyo
+*.sqlite3
+*.env          # Environment variables for sensitive info like SECRET_KEY
+db.sqlite3     # SQLite database for development
+
+# Django migrations
+**/migrations/*.py
+**/migrations/*.pyc
+!**/migrations/__init__.py
+
+# Virtual environment
 venv/
+env/
+ENV/
+.venv/
+.ENV/
+
+# Pytest cache
+.pytest_cache/
+.tox/
+coverage_html_report/
+
+# Mypy type-checking reports
+.mypy_cache/
+.dmypy.json
+.pyre/
+
+# Coverage reports
+htmlcov/
+.coverage
+.coverage.*
+
+# IDE specific files (VSCode, PyCharm)
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# macOS specific files
+.DS_Store
+
+# Windows specific files
+Thumbs.db
+
+# Temporary files and backups
+*.bak
+*.swp
+*~
+
+# Node modules for frontend assets (if using Node.js)
+node_modules/
+
+# Static and media files
+staticfiles/
+media/

@@ -1,6 +1,14 @@
 {% extends 'base.html' %}
 {% block content %}
 {% if request.user.is_applicant %}
+{% if not request.user.has_resume %}
+<div class="alert alert-danger" role="alert">
+    <div class="container">
+        <b>You are seeing this because you dont have a Resume. Upload your resume &nbsp;&nbsp;<a
+                href="{% url 'update-resume' %}" class="genric-btn danger circle">here</a></b>
+    </div>
+</div>
+{% endif %}
 <section class="sample-text-area">
     <div class="container box_1170">
         <h3 class="text-heading">Welcome to Hamro Jobs</h3>
@@ -28,6 +36,14 @@
     </div>
 </section>
 {% elif request.user.is_recruiter %}
+{% if not request.user.has_company %}
+<div class="alert alert-danger" role="alert">
+    <div class="container">
+        <b>You are seeing this because you have not created any company. Create one from &nbsp;&nbsp;<a
+                href="{% url 'update-company' %}" class="genric-btn danger circle">here</a></b>
+    </div>
+</div>
+{% endif %}
 <section class="sample-text-area">
     <div class="container box_1170">
         <h3 class="text-heading">Welcome to Hamro Jobs</h3>

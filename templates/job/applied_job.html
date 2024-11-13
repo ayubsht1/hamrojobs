@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<!-- Hero Area Start-->
+<div class="container">
+
+    <div class="section-top-border">
+        <h3 class="mb-30">Applied Jobs</h3>
+        <div class="progress-table-wrap">
+            <div class="progress-table">
+                <div class="table-head">
+                    <div class="serial">#</div>
+                    <div class="country">Job title</div>
+                    <div class="country">Job Category</div>
+                    <div class="visit">Location</div>
+                    <div class="visit">Salary</div>
+                    <div class="percentage">Job Type</div>
+                    <div class="percentage">Company</div>
+                    <div class="percentage">Action</div>
+                </div>
+
+                {% for job in jobs %}
+                <div class="table-row">
+                    <div class="serial">{{ forloop.counter }}</div>
+                    <div class="country">{{ job.job.title }}</div>
+                    <div class="country">{{ job.job.category }}</div>
+                    <div class="visit">{{ job.job.location }}</div>
+                    <div class="visit">{{ job.job.salary }}</div>
+                    <div class="percentage">{{ job.job.job_type }}</div>
+                    <div class="percentage">{{ job.job.company.name }}</div>
+                    <div class="percentage"><a href="{% url 'job-detail' job.job.pk %}" class="genric-btn primary"><small>Job Details</small></a></div>
+                </div>
+                {% endfor %}
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

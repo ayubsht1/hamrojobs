@@ -83,12 +83,16 @@
                         <li>Requried Experience : <span>{{job.experience}} years</span></li>
                     </ul>
                     <div class="apply-btn2">
-                        {% if has_applied == False %}
-                        <a href="{% url 'apply-to-job' job.pk%}" class="btn">Apply Now</a>
-                        {% else %}
-                        <a href="#" class="btn">Already applied</a>
-                        {% endif %}
+                        <a href="{% url 'update-job' job.pk%}" class="btn">Update Details</a>
                     </div>
+                    <br>
+                    <div class="apply-btn2">
+                        <a href="{% url 'all-applicants' job.pk%}" class="genric-btn primary">View Applicants</a>
+                    </div>
+                    <br>
+                    <!-- <div class="apply-btn2">
+                        <a href="{% url 'update-job' job.pk%}" class="genric-btn danger">Delete Job</a>
+                    </div> -->
                 </div>
                 <div class="post-details4  mb-50">
                     <!-- Small Section Tittle -->
@@ -98,7 +102,7 @@
                     <span>{{ job.company.name }}</span>
                     <p>Established at: {{ job.company.est_date}}</p>
                     <ul>
-                        <li>Name: <span>{{ job.company.name }} </span></li>
+                        <li>Name: <span>{{job.company.name}}</span></li>
                         <li>city : <span> {{ job.company.city }}</span></li>
                         <li>province: <span>{{ job.company.province}}</span></li>
                         <li>email: <span>{{job.company.email}} </span></li>

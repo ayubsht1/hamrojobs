@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% block content %}
+<div class="container">
+    <div class="section-top-border">
+        <div class="row">
+            <div class="col-lg-8 col-md-8">
+                <h3 class="mb-30">Update Job</h3>
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="mt-10">
+                        {% render_field form.title class="single-input" placeholder="Job Title"%}
+                    </div>
+                    <div class="mt-10">
+                        {% render_field form.category class="form-select" placeholder="Category"%}
+                    </div>
+                    <div class="mt-10">
+                        {% render_field form.location class="single-input" placeholder="Location"%}
+                    </div>
+                    <div class="mt-10">
+                        {% render_field form.job_type class="form-select" placeholder="Job Type"%}
+                    </div>
+                    <div class="mt-10">
+                        {% render_field form.description class="single-textarea" placeholder="description"%}
+                    </div>
+                    <div class="mt-10">
+                        {% render_field form.requirements class="single-textarea" placeholder="requirements"%}
+                    </div>
+                    <div class="mt-10">
+                        {% render_field form.salary class="single-input" placeholder="salary"%}
+                    </div>
+                    <div class="mt-10">
+                        <label>Is Available</label>&nbsp;&nbsp;
+                        {% render_field form.is_available class="default-checkbox"%}
+                    </div>
+                    <div class="mt-10">
+                        {% render_field form.experience class="single-input" placeholder="experience"%}
+                    </div>
+                    <br>
+                    <button type="submit" class="genric-btn primary-border">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

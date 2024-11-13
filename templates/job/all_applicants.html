@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<!-- Hero Area Start-->
+<div class="container">
+
+    <div class="section-top-border">
+        <h3 class="mb-30">All Applicants for {{ job.title }} Position</h3>
+        <div class="progress-table-wrap">
+            <div class="progress-table">
+                <div class="table-head">
+                    <div class="serial">#</div>
+                    <div class="country">First Name</div>
+                    <div class="country">Surname</div>
+                    <div class="percentage">Location</div>
+                    <div class="percentage">Job Position/Title</div>
+                    <div class="percentage">Application Date</div>
+                    <div class="percentage">Action</div>
+                </div>
+
+                {% for applicant in applicants %}
+                <div class="table-row">
+                    <div class="serial">{{ forloop.counter }}</div>
+                    <div class="country">{{ applicant.user.resume.first_name }}</div>
+                    <div class="country">{{ applicant.user.resume.surname }}</div>
+                    <div class="percentage">{{ applicant.user.resume.location }}</div>
+                    <div class="percentage">{{ applicant.user.resume.job_title }}</div>
+                    <div class="percentage">{{ applicant.timestamp }}</div>
+                    <div class="percentage"><a href="#" class="genric-btn primary"><small>Download Resume</small></a></div>
+
+                </div>
+                {% endfor %}
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

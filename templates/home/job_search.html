@@ -1,4 +1,5 @@
        {% load static %}
+       {% load widget_tweaks %}
        <!-- slider Area Start-->
        <div class="slider-area ">
         <!-- Mobile Menu -->
@@ -8,34 +9,41 @@
                     <div class="row">
                         <div class="col-xl-6 col-lg-9 col-md-10">
                             <div class="hero__caption">
+                                {% if not request.user.is_recruiter %}
                                 <h1>Find the most exciting startup jobs</h1>
+                                {% else %}
+                                <h1>Welcome Recruiter,</h1><h2>Create a company and start posting jobs Today!</h2>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
+                    {% if not request.user.is_recruiter %}
                     <!-- Search Box -->
                     <div class="row">
                         <div class="col-xl-8">
-                            <!-- form -->
-                            <form action="#" class="search-box">
+                            <!-- Search Form -->
+                            <form action="{% url 'job-search' %}" method="get" class="search-box">
                                 <div class="input-form">
-                                    <input type="text" placeholder="Job Tittle or keyword">
+                                    <!-- Keyword Input Field -->
+                                    <input type="text" name="query" placeholder="Job Title or keyword" 
+                                           onfocus="this.placeholder = ''" onblur="this.placeholder = 'Job Title or keyword'" 
+                                           value="{{ query }}">
+                                        </div>
+                                        <button type="submit" class="genric-btn primary py-3 px-5">Find job</button>
+                                <div class="select-form ">
+                                    <!-- Submit Button -->
                                 </div>
-                                <div class="select-form">
-                                    <div class="select-itms">
-                                        <select name="select" id="select1">
-                                            <option value="">Location BD</option>
-                                            <option value="">Location PK</option>
-                                            <option value="">Location US</option>
-                                            <option value="">Location UK</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="search-form">
-                                    <a href="#">Find job</a>
-                                </div>	
-                            </form>	
+                            </form>
                         </div>
                     </div>
+                    
+                    {% else %}
+                    <div class="row">
+                        <div class="col-xl-8">
+                            <a href="{% url 'create-job' %}" class="genric-btn primary e-large">Post Jobs</a>
+                        </div>
+                    </div>
+                    {% endif %}
                 </div>
             </div>
         </div>

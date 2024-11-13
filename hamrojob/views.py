@@ -1,38 +1,51 @@
-from django.views.generic import ListView, TemplateView, DetailView
-from hamrojob.models import Job, JobCategory
+from django.views.generic import ListView, TemplateView, DetailView, View
+from hamrojob.models import Job, JobCategory, ApplyJob
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from .form import CreateJobForm, UpdateJobForm
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from .filter import Jobfilter
+from django_filters.views import FilterView
+from django.db.models import Q, Count
+
 
 # Home view to show a list of jobs
-class HomeView(ListView):
+class HomeView(FilterView):
     model = Job
     template_name = 'home.html'
     context_object_name = "jobs"
+    filterset_class = Jobfilter
     paginate_by = 3
 
     def get_queryset(self):
-        return Job.objects.order_by("-posted_at")
+        return Job.objects.filter(is_available=True).order_by("-posted_at")
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['categories'] = JobCategory.objects.all()  # Add categories from another model
+        filterset = self.filterset_class(self.request.GET, queryset=Job.objects.filter(is_available=True))
+        context['filter'] = filterset
         return context
 
 # Job view to list all jobs
-class JobView(ListView):
+class JobView(FilterView):
     model = Job
     template_name = 'job/job_list.html'
     context_object_name = "jobs"
     paginate_by = 3
+    filterset_class = Jobfilter
 
     def get_queryset(self):
-        return Job.objects.order_by("-posted_at")
+        queryset = super().get_queryset().filter(is_available=True).order_by("-posted_at")
+        return queryset
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # Add company logos to the context for each job
+        total_jobs = self.get_queryset().count()        
         context['company_logos'] = {job.id: job.company.logo.url if job.company.logo else None for job in context['jobs']}
+        context['total_job_count'] = total_jobs
+        context['filter'] = self.filterset
         return context
 
 # Category view to list all job categories
@@ -45,16 +58,24 @@ class CategoryView(ListView):
         return JobCategory.objects.all()
 
 # Job detail view for displaying job details
-class JobDetailView(DetailView):
+class JobDetailView(LoginRequiredMixin, DetailView):
     model = Job
-    template_name = 'job/job_detail.html'
-    context_object_name = 'job'  # The object in the context will be named 'job'
+    context_object_name = 'job'
+
+    def get_template_names(self):
+        if self.request.user.is_recruiter:
+            return ['job/edit_details.html']
+        else:
+            return ['job/job_detail.html']
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        # Fetch the related company details
+        context = super().get_context_data(**kwargs)     
         company = context['job'].company
-        context['company_logo'] = company.logo  # Pass the company logo to the template
+        context['company_logo'] = company.logo 
+        user = self.request.user
+        job = self.get_object()  
+        context['has_applied'] = ApplyJob.objects.filter(user=user, job=job).exists()
+
         return context
 
 class ContactView(TemplateView):
@@ -112,3 +133,101 @@ def update_job(request, pk):
     else:
         messages.warning(request,'Permission Denied')
         return redirect('home')
+    
+def manage_jobs(request):
+    jobs = Job.objects.filter(user=request.user, company=request.user.company).order_by("-posted_at")
+    total_jobs = jobs.count()
+    paginator = Paginator(jobs, 3)  
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    context = {
+        'jobs': page_obj.object_list,  
+        'page_obj': page_obj,  
+        'total_job_count': total_jobs,  
+    }
+    return render(request, 'job/manage_jobs.html', context)
+
+def apply_to_job(request, pk):
+    if request.user.is_authenticated:
+        if request.user.is_applicant:
+            job = Job.objects.get(pk=pk)
+            if ApplyJob.objects.filter(user=request.user, job=pk).exists():
+                messages.warning(request, 'Permission Denied')
+                return redirect('home')
+            else:
+                ApplyJob.objects.create(
+                    job=job,
+                    user = request.user,
+                    status = 'Pending'
+                )
+                messages.info(request, 'You have successfully applied ! Please see dashboard')
+                return redirect('home')
+        else:
+            messages.info(request, 'Invalid Request you are not an applicant            q')
+            return redirect('home')
+    else:
+        return redirect('login')
+    
+def all_applicants(request, pk):
+    job = Job.objects.get(pk=pk)
+    applicants= job.applyjob_set.all()
+    context = {'job':job, 'applicants':applicants}
+    return render(request, 'job/all_applicants.html', context)
+
+def applied_jobs(request):
+    jobs= ApplyJob.objects.filter(user=request.user)
+    context = {'jobs':jobs}
+    return render(request, 'job/applied_job.html', context)
+
+
+class JobSearchView(View):
+    def get(self, request, *args, **kwargs):
+        # Choose template based on user type
+        if request.user.is_authenticated and request.user.is_recruiter:
+            template_name = "job/manage_jobs.html"
+        else:
+            template_name = "job/job_list.html"
+        
+        query = request.GET.get('query', '')
+
+        # Filter jobs by availability
+        job_list = Job.objects.filter(is_available=True)
+
+        # Apply search filters
+        if query:
+            job_list = job_list.filter(
+                Q(title__icontains=query) |
+                Q(description__icontains=query) |
+                Q(location__icontains=query) |
+                Q(company__name__icontains=query) |
+                Q(job_type__icontains=query) |
+                Q(experience__icontains=query)
+            )
+
+        # Get the total job count before pagination
+        total_jobs = job_list.count()
+
+        # Order jobs and apply pagination
+        job_list = job_list.order_by("-posted_at")
+        page = request.GET.get("page", 1)
+        paginator = Paginator(job_list, 5)
+        try:
+            jobs = paginator.page(page)
+        except PageNotAnInteger:
+            jobs = paginator.page(1)
+        except EmptyPage:
+            jobs = paginator.page(paginator.num_pages)
+
+        # Render the template with additional context
+        return render(
+            request, 
+            template_name, 
+            {
+                "title": "Job Search",
+                "page_obj": jobs,  # for pagination controls
+                "jobs": jobs,
+                "query": query,
+                "total_job_count": total_jobs,  # Total job count without pagination
+            }
+        )

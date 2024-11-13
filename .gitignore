@@ -1,63 +1,138 @@
-# Byte-compiled / optimized / DLL files
-__pycache__/
-*.py[cod]
-*$py.class
-
-# Django-related
+# Django #
 *.log
 *.pot
 *.pyc
-*.pyo
-*.sqlite3
-*.env          # Environment variables for sensitive info like SECRET_KEY
-db.sqlite3     # SQLite database for development
+__pycache__
+db.sqlite3
+media
 
-# Django migrations
-**/migrations/*.py
-**/migrations/*.pyc
-!**/migrations/__init__.py
+# Backup files # 
+*.bak 
 
-# Virtual environment
-venv/
-env/
-ENV/
-.venv/
-.ENV/
+# If you are using PyCharm # 
+# User-specific stuff
+.idea/**/workspace.xml
+.idea/**/tasks.xml
+.idea/**/usage.statistics.xml
+.idea/**/dictionaries
+.idea/**/shelf
 
-# Pytest cache
-.pytest_cache/
-.tox/
-coverage_html_report/
+# AWS User-specific
+.idea/**/aws.xml
 
-# Mypy type-checking reports
-.mypy_cache/
-.dmypy.json
-.pyre/
+# Generated files
+.idea/**/contentModel.xml
 
-# Coverage reports
-htmlcov/
-.coverage
-.coverage.*
+# Sensitive or high-churn files
+.idea/**/dataSources/
+.idea/**/dataSources.ids
+.idea/**/dataSources.local.xml
+.idea/**/sqlDataSources.xml
+.idea/**/dynamic.xml
+.idea/**/uiDesigner.xml
+.idea/**/dbnavigator.xml
 
-# IDE specific files (VSCode, PyCharm)
-.vscode/
-.idea/
-*.sublime-project
-*.sublime-workspace
+# Gradle
+.idea/**/gradle.xml
+.idea/**/libraries
 
-# macOS specific files
-.DS_Store
+# File-based project format
+*.iws
 
-# Windows specific files
-Thumbs.db
+# IntelliJ
+out/
 
-# Temporary files and backups
-*.bak
-*.swp
-*~
+# JIRA plugin
+atlassian-ide-plugin.xml
 
-# Node modules for frontend assets (if using Node.js)
-node_modules/
+# Python # 
+*.py[cod] 
+*$py.class 
 
-# Static and media files
-media/
+# Distribution / packaging 
+.Python build/ 
+develop-eggs/ 
+dist/ 
+downloads/ 
+eggs/ 
+.eggs/ 
+lib/ 
+lib64/ 
+parts/ 
+sdist/ 
+var/ 
+wheels/ 
+*.whl
+*.egg-info/ 
+.installed.cfg 
+*.egg 
+*.manifest 
+*.spec 
+
+# Installer logs 
+pip-log.txt 
+pip-delete-this-directory.txt 
+
+# Unit test / coverage reports 
+htmlcov/ 
+.tox/ 
+.coverage 
+.coverage.* 
+.cache 
+.pytest_cache/ 
+nosetests.xml 
+coverage.xml 
+*.cover 
+.hypothesis/ 
+
+# Jupyter Notebook 
+.ipynb_checkpoints 
+
+# pyenv 
+.python-version 
+
+# celery 
+celerybeat-schedule.* 
+
+# SageMath parsed files 
+*.sage.py 
+
+# Environments 
+.env 
+.venv 
+env/ 
+venv/ 
+ENV/ 
+env.bak/ 
+venv.bak/ 
+
+# mkdocs documentation 
+/site 
+
+# mypy 
+.mypy_cache/ 
+
+# Sublime Text # 
+*.tmlanguage.cache 
+*.tmPreferences.cache 
+*.stTheme.cache 
+*.sublime-workspace 
+*.sublime-project 
+
+# sftp configuration file 
+sftp-config.json 
+
+# Package control specific files Package 
+Control.last-run 
+Control.ca-list 
+Control.ca-bundle 
+Control.system-ca-bundle 
+GitHub.sublime-settings 
+
+# Visual Studio Code # 
+.vscode/* 
+!.vscode/settings.json 
+!.vscode/tasks.json 
+!.vscode/launch.json 
+!.vscode/extensions.json 
+.history

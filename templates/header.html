@@ -21,10 +21,10 @@
                                         <li><a href="{% url 'home'%}">Home</a></li>
                                         {% if not request.user.is_recruiter %}
                                         <li><a href="{% url 'job-list' %}">Find Jobs </a></li>
-                                        <li><a href="{% url 'applied-jobs' %}">Applied Jobs </a></li>
                                         {% endif %}
                                         {% if request.user.is_authenticated %}
                                         {% if request.user.is_applicant %}
+                                        <li><a href="{% url 'applied-jobs' %}">Applied Jobs </a></li>
                                         <li><a href="{% url 'resume-details' pk=user.resume.id%}">Resume</a></li>
                                         {% endif %}
                                         {% if request.user.is_recruiter %}

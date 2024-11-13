@@ -8,7 +8,7 @@ def update_resume(request):
     if request.user.is_applicant:
         resume = Resume.objects.get(user=request.user)
         if request.method == 'POST':
-            form = UpdateResumeForm(request.POST, instance=resume)
+            form = UpdateResumeForm(request.POST, request.FILES, instance=resume)
             if form.is_valid():
                 var = form.save(commit=False)
                 user = User.objects.get(pk=request.user.id)
@@ -34,7 +34,7 @@ def resume_details(request, pk):
         if request.user.is_applicant:
             resume = get_object_or_404(Resume, pk=pk, user=request.user)  # Ensure the resume belongs to the user
             if request.method == 'POST':
-                form = UpdateResumeForm(request.POST, instance=resume)
+                form = UpdateResumeForm(request.POST, request.FILES, instance=resume)
                 if form.is_valid():
                     form.save()
                     messages.info(request, 'Your resume has been updated')

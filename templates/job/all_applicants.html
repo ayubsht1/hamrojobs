@@ -26,7 +26,7 @@
                     <div class="percentage">{{ applicant.user.resume.location }}</div>
                     <div class="percentage">{{ applicant.user.resume.job_title }}</div>
                     <div class="percentage">{{ applicant.timestamp }}</div>
-                    <div class="percentage"><a href="#" class="genric-btn primary"><small>Download Resume</small></a></div>
+                    <div class="percentage"><a href="{{ applicant.user.resume.upload_resume.url }}" class="genric-btn primary"><small>Download Resume</small></a></div>
 
                 </div>
                 {% endfor %}

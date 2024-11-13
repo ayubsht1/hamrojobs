@@ -14,5 +14,5 @@ urlpatterns = [
     path('all-applicants/<int:pk>/', views.all_applicants, name='all-applicants'),
     path("job-search/", views.JobSearchView.as_view(), name="job-search"),
     path('applied-jobs/', views.applied_jobs, name="applied-jobs"),
-
+    path('category/<int:category_id>/', views.JobListByCategoryView.as_view(), name='jobs-by-category'),
 ]

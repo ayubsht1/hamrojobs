@@ -231,3 +231,48 @@ class JobSearchView(View):
                 "total_job_count": total_jobs,  # Total job count without pagination
             }
         )
+    
+class JobListByCategoryView(ListView):
+    model = Job
+    template_name = "job/job_list.html"
+    context_object_name = "jobs"
+    paginate_by = 3
+
+    def get_queryset(self):
+        # Filter jobs by availability and selected category ID
+        return Job.objects.filter(
+            is_available=True,
+            category__id=self.kwargs["category_id"]
+        ).order_by("-posted_at")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        # Retrieve all categories and manually count available jobs for each
+        categories = JobCategory.objects.all()
+        for category in categories:
+            category.job_count = Job.objects.filter(
+                category=category,
+                is_available=True
+            ).count()
+
+        # Add context variables for the template
+        context['title'] = 'Jobs by Category'
+        context['categories'] = categories
+        context['selected_category_id'] = self.kwargs["category_id"]
+
+        # Add total job count for the selected category only
+        selected_category = JobCategory.objects.get(id=self.kwargs["category_id"])
+        context['total_job_count'] = Job.objects.filter(
+            is_available=True,
+            category=selected_category
+        ).count()
+
+        # Pagination logic (manually handle pagination)
+        jobs = self.get_queryset()
+        paginator = Paginator(jobs, self.paginate_by)
+        page_number = self.request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+        context['page_obj'] = page_obj
+
+        return context

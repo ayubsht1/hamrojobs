@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-from .views import HomeView, JobView, JobDetailView, ContactView, AboutView,JobSearchView
+from .views import HomeView, JobView, JobDetailView, ContactView, AboutView, JobSearchView
 urlpatterns = [
     path('',HomeView.as_view(),name='home'),
     path('job-list',JobView.as_view(),name='job-list'),

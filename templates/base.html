@@ -53,6 +53,11 @@
     {% endblock content %}
     {% include "footer.html" %}
     <!-- JS here -->
+    <script>
+        document.getElementById('filter-form').addEventListener('change', function() {
+            this.submit();
+        });
+    </script>
 
     <!-- All JS Custom Plugins Link Here here -->
     <script src="./{% static 'assets/js/vendor/modernizr-3.5.0.min.js' %}"></script>

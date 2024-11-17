@@ -1,6 +1,7 @@
 from django.db import models
 from company.models import Company
 from users.models import User
+from django.conf import settings
 
 # Create your models here.
 class JobCategory(models.Model):
@@ -45,3 +46,13 @@ class ApplyJob(models.Model):
     job = models.ForeignKey(Job, on_delete=models.CASCADE)
     timestamp = models.DateTimeField(auto_now_add=True)
     status = models.CharField(max_length=10, choices=status_choices, default='Pending')
+
+class SearchLog(models.Model):
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="search_logs", null=True, blank=True
+    )
+    search_query = models.CharField(max_length=255)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Search Log by {self.user.username} on {self.created_at}"

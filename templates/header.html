@@ -23,7 +23,8 @@
                                         <li><a href="{% url 'job-list' %}">Find Jobs </a></li>
                                         {% endif %}
                                         {% if request.user.is_authenticated %}
-                                        {% if request.user.is_applicant %}
+                                        {% if request.user.is_applicant and request.user.has_resume %}
+                                        <li><a href="{% url 'job-recommendations' %}" class="nav-link">Recommendations</a></li>
                                         <li><a href="{% url 'applied-jobs' %}">Applied Jobs </a></li>
                                         <li><a href="{% url 'resume-details' pk=user.resume.id%}">Resume</a></li>
                                         {% endif %}

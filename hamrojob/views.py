@@ -7,7 +7,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from .filter import Jobfilter
 from django_filters.views import FilterView
-from django.db.models import Q, Count
+from django.db.models import Q
+from .models import SearchLog
 
 
 # Home view to show a list of jobs
@@ -23,7 +24,7 @@ class HomeView(FilterView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['categories'] = JobCategory.objects.all()  # Add categories from another model
+        context['categories'] = JobCategory.objects.all() 
         filterset = self.filterset_class(self.request.GET, queryset=Job.objects.filter(is_available=True))
         context['filter'] = filterset
         return context
@@ -32,7 +33,7 @@ class JobView(FilterView):
     model = Job
     template_name = 'job/job_list.html'
     context_object_name = "jobs"
-    paginate_by = 3  # Number of jobs per page
+    paginate_by = 3  
     filterset_class = Jobfilter
 
     def get_queryset(self):
@@ -49,10 +50,10 @@ class JobView(FilterView):
         if not filters_applied:
             context['total_job_count'] = filtered_queryset.count()
         
-        context['filter'] = self.filterset  # To retain the filter context
+        context['filter'] = self.filterset  
         return context
 
-# Category view to list all job categories
+
 class CategoryView(ListView):
     model = JobCategory
     template_name = 'job/job_list_left.html'
@@ -61,7 +62,7 @@ class CategoryView(ListView):
     def get_queryset(self):
         return JobCategory.objects.all()
 
-# Job detail view for displaying job details
+
 class JobDetailView(LoginRequiredMixin, DetailView):
     model = Job
     context_object_name = 'job'
@@ -154,7 +155,7 @@ def manage_jobs(request):
 
 def apply_to_job(request, pk):
     if request.user.is_authenticated:
-        if request.user.is_applicant:
+        if request.user.is_applicant and request.user.has_resume:
             job = Job.objects.get(pk=pk)
             if ApplyJob.objects.filter(user=request.user, job=pk).exists():
                 messages.warning(request, 'Permission Denied')
@@ -168,7 +169,7 @@ def apply_to_job(request, pk):
                 messages.info(request, 'You have successfully applied ! Please see dashboard')
                 return redirect('home')
         else:
-            messages.info(request, 'Invalid Request you are not an applicant            q')
+            messages.info(request, 'Invalid Request, you do not have permission')
             return redirect('home')
     else:
         return redirect('login')
@@ -195,6 +196,12 @@ class JobSearchView(View):
         
         # Get the search query from request
         query = request.GET.get('query', '')
+
+        # Log the search query if the user is authenticated and the query exists
+        if query and request.user.is_authenticated:
+            # Log only for applicants (assuming you want to log only for applicants)
+            if hasattr(request.user, 'is_applicant') and request.user.is_applicant:
+                SearchLog.objects.create(user=request.user, search_query=query)
 
         # Filter jobs by availability
         job_list = Job.objects.filter(is_available=True)
@@ -285,4 +292,41 @@ class JobListByCategoryView(ListView):
         page_obj = paginator.get_page(page_number)
         context['page_obj'] = page_obj
 
+        return context
+    
+class JobRecommendationsView(ListView):
+    model = Job
+    template_name = 'job/job_recommendations.html'
+    context_object_name = 'recommended_jobs'
+
+    def get_queryset(self):
+        if self.request.user.is_authenticated and self.request.user.is_applicant:
+            search_logs = SearchLog.objects.filter(user=self.request.user).order_by('created_at')[:5]
+            if not search_logs:
+                return Job.objects.none()  
+            search_terms = [log.search_query for log in search_logs]
+            query = Q()
+            for term in search_terms:
+                query |= (Q(title__icontains=term) |
+                          Q(location__icontains=term) |
+                          Q(company__name__icontains=term))
+            job_list = Job.objects.filter(query).distinct()
+            return job_list
+        else:
+            return redirect('login')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        job_list = self.get_queryset()
+        paginator = Paginator(job_list, 5) 
+        page = self.request.GET.get('page', 1)
+        try:
+            jobs = paginator.page(page)
+        except PageNotAnInteger:
+            jobs = paginator.page(1)
+        except EmptyPage:
+            jobs = paginator.page(paginator.num_pages)
+
+        context['recommended_jobs'] = jobs
+        context['is_paginated'] = jobs.has_other_pages()
         return context

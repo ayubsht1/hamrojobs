@@ -1,6 +1,16 @@
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
+{% if request.user.is_applicant %}
+{% if not request.user.has_resume %}
+<div class="alert alert-danger" role="alert">
+    <div class="container">
+        <b>You are seeing this because you dont have a Resume. Upload your resume &nbsp;&nbsp;<a
+                href="{% url 'update-resume' %}" class="genric-btn danger circle">here</a></b>
+    </div>
+</div>
+{% endif %}
+{% endif %}
     <main>
         {% include 'home/job_search.html' %}
         {% include 'home/categories.html' %}

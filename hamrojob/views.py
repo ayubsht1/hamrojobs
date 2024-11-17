@@ -28,24 +28,28 @@ class HomeView(FilterView):
         context['filter'] = filterset
         return context
 
-# Job view to list all jobs
 class JobView(FilterView):
     model = Job
     template_name = 'job/job_list.html'
     context_object_name = "jobs"
-    paginate_by = 3
+    paginate_by = 3  # Number of jobs per page
     filterset_class = Jobfilter
 
     def get_queryset(self):
         queryset = super().get_queryset().filter(is_available=True).order_by("-posted_at")
         return queryset
-    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        total_jobs = self.get_queryset().count()        
-        context['company_logos'] = {job.id: job.company.logo.url if job.company.logo else None for job in context['jobs']}
-        context['total_job_count'] = total_jobs
-        context['filter'] = self.filterset
+        filtered_queryset = self.get_queryset()
+        filters_applied = any(value for key, value in self.request.GET.items() if key in self.filterset_class.get_fields())
+        context['company_logos'] = {
+            job.id: job.company.logo.url if job.company.logo else None for job in context['jobs']
+        }
+        if not filters_applied:
+            context['total_job_count'] = filtered_queryset.count()
+        
+        context['filter'] = self.filterset  # To retain the filter context
         return context
 
 # Category view to list all job categories
@@ -189,12 +193,13 @@ class JobSearchView(View):
         else:
             template_name = "job/job_list.html"
         
+        # Get the search query from request
         query = request.GET.get('query', '')
 
         # Filter jobs by availability
         job_list = Job.objects.filter(is_available=True)
 
-        # Apply search filters
+        # Apply search filters if a query is provided
         if query:
             job_list = job_list.filter(
                 Q(title__icontains=query) |
@@ -208,16 +213,20 @@ class JobSearchView(View):
         # Get the total job count before pagination
         total_jobs = job_list.count()
 
-        # Order jobs and apply pagination
+        # Order jobs by the posted date and apply pagination
         job_list = job_list.order_by("-posted_at")
+        paginator = Paginator(job_list, 5)  # 5 jobs per page
         page = request.GET.get("page", 1)
-        paginator = Paginator(job_list, 5)
+
         try:
             jobs = paginator.page(page)
         except PageNotAnInteger:
             jobs = paginator.page(1)
         except EmptyPage:
             jobs = paginator.page(paginator.num_pages)
+
+        # Check if pagination is needed
+        is_paginated = jobs.has_other_pages()
 
         # Render the template with additional context
         return render(
@@ -226,9 +235,10 @@ class JobSearchView(View):
             {
                 "title": "Job Search",
                 "page_obj": jobs,  # for pagination controls
-                "jobs": jobs,
-                "query": query,
-                "total_job_count": total_jobs,  # Total job count without pagination
+                "jobs": jobs,      # current page jobs
+                "query": query,    # search query
+                "total_job_count": total_jobs,  # total job count
+                "is_paginated": is_paginated,   # pagination status
             }
         )
     

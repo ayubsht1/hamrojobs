@@ -188,25 +188,19 @@ def applied_jobs(request):
 
 class JobSearchView(View):
     def get(self, request, *args, **kwargs):
-        # Choose template based on user type
         if request.user.is_authenticated and request.user.is_recruiter:
             template_name = "job/manage_jobs.html"
         else:
             template_name = "job/job_list.html"
         
-        # Get the search query from request
         query = request.GET.get('query', '')
 
-        # Log the search query if the user is authenticated and the query exists
         if query and request.user.is_authenticated:
-            # Log only for applicants (assuming you want to log only for applicants)
             if hasattr(request.user, 'is_applicant') and request.user.is_applicant:
                 SearchLog.objects.create(user=request.user, search_query=query)
 
-        # Filter jobs by availability
         job_list = Job.objects.filter(is_available=True)
 
-        # Apply search filters if a query is provided
         if query:
             job_list = job_list.filter(
                 Q(title__icontains=query) |
@@ -217,12 +211,10 @@ class JobSearchView(View):
                 Q(experience__icontains=query)
             )
 
-        # Get the total job count before pagination
         total_jobs = job_list.count()
 
-        # Order jobs by the posted date and apply pagination
         job_list = job_list.order_by("-posted_at")
-        paginator = Paginator(job_list, 5)  # 5 jobs per page
+        paginator = Paginator(job_list, 5)  
         page = request.GET.get("page", 1)
 
         try:
@@ -232,20 +224,17 @@ class JobSearchView(View):
         except EmptyPage:
             jobs = paginator.page(paginator.num_pages)
 
-        # Check if pagination is needed
         is_paginated = jobs.has_other_pages()
-
-        # Render the template with additional context
         return render(
             request, 
             template_name, 
             {
                 "title": "Job Search",
-                "page_obj": jobs,  # for pagination controls
-                "jobs": jobs,      # current page jobs
-                "query": query,    # search query
-                "total_job_count": total_jobs,  # total job count
-                "is_paginated": is_paginated,   # pagination status
+                "page_obj": jobs,  
+                "jobs": jobs,      
+                "query": query,    
+                "total_job_count": total_jobs,  
+                "is_paginated": is_paginated,   
             }
         )
     
@@ -256,7 +245,6 @@ class JobListByCategoryView(ListView):
     paginate_by = 3
 
     def get_queryset(self):
-        # Filter jobs by availability and selected category ID
         return Job.objects.filter(
             is_available=True,
             category__id=self.kwargs["category_id"]
@@ -264,8 +252,6 @@ class JobListByCategoryView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-
-        # Retrieve all categories and manually count available jobs for each
         categories = JobCategory.objects.all()
         for category in categories:
             category.job_count = Job.objects.filter(
@@ -294,31 +280,41 @@ class JobListByCategoryView(ListView):
 
         return context
     
-class JobRecommendationsView(ListView):
+class JobRecommendationsView(LoginRequiredMixin, ListView):
     model = Job
     template_name = 'job/job_recommendations.html'
     context_object_name = 'recommended_jobs'
+    paginate_by = 5  # Use Django's built-in pagination
 
     def get_queryset(self):
-        if self.request.user.is_authenticated and self.request.user.is_applicant:
-            search_logs = SearchLog.objects.filter(user=self.request.user).order_by('created_at')[:5]
-            if not search_logs:
-                return Job.objects.none()  
+        """Generate job recommendations based on the user's recent search logs."""
+        if self.request.user.is_applicant:
+            # Fetch the 5 most recent search logs for the user
+            search_logs = SearchLog.objects.filter(user=self.request.user).order_by('-created_at')[:5]
+            if not search_logs.exists():
+                return Job.objects.none()
+
+            # Build a query for recommendations based on search terms
             search_terms = [log.search_query for log in search_logs]
             query = Q()
             for term in search_terms:
-                query |= (Q(title__icontains=term) |
-                          Q(location__icontains=term) |
-                          Q(company__name__icontains=term))
-            job_list = Job.objects.filter(query).distinct()
-            return job_list
+                query |= (
+                    Q(title__icontains=term) |
+                    Q(location__icontains=term) |
+                    Q(company__name__icontains=term)
+                )
+
+            # Filter jobs based on search terms
+            return Job.objects.filter(query, is_available=True).distinct().order_by('-posted_at')
         else:
-            return redirect('login')
+            return Job.objects.none()
 
     def get_context_data(self, **kwargs):
+        """Add pagination and other context data to the template."""
         context = super().get_context_data(**kwargs)
-        job_list = self.get_queryset()
-        paginator = Paginator(job_list, 5) 
+
+        # Add custom pagination logic for consistency with get_queryset()
+        paginator = Paginator(self.get_queryset(), self.paginate_by)
         page = self.request.GET.get('page', 1)
         try:
             jobs = paginator.page(page)
@@ -327,6 +323,10 @@ class JobRecommendationsView(ListView):
         except EmptyPage:
             jobs = paginator.page(paginator.num_pages)
 
-        context['recommended_jobs'] = jobs
-        context['is_paginated'] = jobs.has_other_pages()
+        context.update({
+            'recommended_jobs': jobs,
+            'is_paginated': jobs.has_other_pages(),
+            'title': 'Recommended Jobs',
+        })
+
         return context

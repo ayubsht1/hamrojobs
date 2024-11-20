@@ -28,7 +28,7 @@ class Job(models.Model):
     job_type = models.CharField(max_length=12, choices=JOB_TYPES)
     description = models.TextField()
     requirements = models.TextField()
-    salary = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    salary = models.DecimalField(max_digits=10, decimal_places=2)
     posted_at = models.DateTimeField(auto_now_add=True)
     is_available = models.BooleanField(default=True)
     experience = models.PositiveIntegerField()
@@ -56,3 +56,4 @@ class SearchLog(models.Model):
 
     def __str__(self):
         return f"Search Log by {self.user.username} on {self.created_at}"
+    

@@ -1,4 +1,5 @@
 # Deprioritize JavaScript, CSS, and SCSS
+* text=auto
 *.js linguist-detectable=false
 *.css linguist-detectable=false
 *.scss linguist-detectable=false

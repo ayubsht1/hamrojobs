@@ -1,0 +1,7 @@
+# Deprioritize JavaScript, CSS, and SCSS
+*.js linguist-detectable=false
+*.css linguist-detectable=false
+*.scss linguist-detectable=false
+
+# Ensure Python files are emphasized
+*.py linguist-detectable=true
